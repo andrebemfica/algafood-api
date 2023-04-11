@@ -24,7 +24,7 @@ public class FormaPagamentoRepositoryImpl implements FormaPagamentoRepository {
         return manager.createQuery("from FormaPagamento", FormaPagamento.class).getResultList();
     }
     @Override
-    public FormaPagamento porId(Long id) {
+    public FormaPagamento buscar(Long id) {
         //faz um select from Cozinha where id é igual ao id recebido.
         return manager.find(FormaPagamento.class, id);
     }
@@ -41,7 +41,7 @@ public class FormaPagamentoRepositoryImpl implements FormaPagamentoRepository {
     @Transactional
     public void remover(FormaPagamento formaPagamento) {
         //we need to change from transient state to managed state for the JPA to be able to manage.
-        formaPagamento = porId(formaPagamento.getId());
+        formaPagamento = buscar(formaPagamento.getId());
         manager.remove(formaPagamento);
     }
 }

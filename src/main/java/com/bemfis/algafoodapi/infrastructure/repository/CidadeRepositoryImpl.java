@@ -24,7 +24,7 @@ public class CidadeRepositoryImpl implements CidadeRepository {
         return manager.createQuery("from Cidade", Cidade.class).getResultList();
     }
     @Override
-    public Cidade porId(Long id) {
+    public Cidade buscar(Long id) {
         //faz um select from Cozinha where id é igual ao id recebido.
         return manager.find(Cidade.class, id);
     }
@@ -41,7 +41,7 @@ public class CidadeRepositoryImpl implements CidadeRepository {
     @Transactional
     public void remover(Cidade cidade) {
         //we need to change from transient state to managed state for the JPA to be able to manage.
-        cidade = porId(cidade.getId());
+        cidade = buscar(cidade.getId());
         manager.remove(cidade);
     }
 }

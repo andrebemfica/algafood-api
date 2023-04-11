@@ -23,7 +23,7 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
         return manager.createQuery("from Cozinha", Cozinha.class).getResultList();
     }
     @Override
-    public Cozinha porId(Long id) {
+    public Cozinha buscar(Long id) {
         //faz um select from Cozinha where id é igual ao id recebido.
         return manager.find(Cozinha.class, id);
     }
@@ -40,7 +40,7 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
     @Transactional
     public void remover(Cozinha cozinha) {
         //we need to change from transient state to managed state for the JPA to be able to manage.
-        cozinha = porId(cozinha.getId());
+        cozinha = buscar(cozinha.getId());
         manager.remove(cozinha);
     }
 }

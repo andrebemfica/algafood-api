@@ -23,7 +23,7 @@ public class PermissaoRepositoryImpl implements PermissaoRepository {
         return manager.createQuery("from Permissao", Permissao.class).getResultList();
     }
     @Override
-    public Permissao porId(Long id) {
+    public Permissao buscar(Long id) {
         //faz um select from Cozinha where id é igual ao id recebido.
         return manager.find(Permissao.class, id);
     }
@@ -40,7 +40,7 @@ public class PermissaoRepositoryImpl implements PermissaoRepository {
     @Transactional
     public void remover(Permissao permissao) {
         //we need to change from transient state to managed state for the JPA to be able to manage.
-        permissao = porId(permissao.getId());
+        permissao = buscar(permissao.getId());
         manager.remove(permissao);
     }
 }

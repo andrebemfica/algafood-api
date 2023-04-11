@@ -16,14 +16,14 @@ public class EstadoRepositoryImpl implements EstadoRepository {
     //com esse EntityManager podemos salvar um objeto no banco, fazer consultas, etc.
 
     @Override
-    public List<Estado> todos() {
+    public List<Estado> listar() {
         //createQuery cria uma consulta, tem como argumento uma String (consulta JPQL) e o tipo do retorno da consulta.
         //createQuery retorna uma consulta tipada de cozinha (TypedQuery).
         //getResultList retorna uma lista de cozinha.
         return manager.createQuery("from Estado", Estado.class).getResultList();
     }
     @Override
-    public Estado porId(Long id) {
+    public Estado buscar(Long id) {
         //faz um select from Cozinha where id é igual ao id recebido.
         return manager.find(Estado.class, id);
     }
@@ -40,7 +40,7 @@ public class EstadoRepositoryImpl implements EstadoRepository {
     @Transactional
     public void remover(Estado estado) {
         //we need to change from transient state to managed state for the JPA to be able to manage.
-        estado = porId(estado.getId());
+        estado = buscar(estado.getId());
         manager.remove(estado);
     }
 }

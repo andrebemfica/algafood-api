@@ -24,7 +24,7 @@ public class RestauranteRepositoryImpl implements RestauranteRepository {
         return manager.createQuery("from Restaurante", Restaurante.class).getResultList();
     }
     @Override
-    public Restaurante porId(Long id) {
+    public Restaurante buscar(Long id) {
         //faz um select from Cozinha where id é igual ao id recebido.
         return manager.find(Restaurante.class, id);
     }
@@ -41,7 +41,7 @@ public class RestauranteRepositoryImpl implements RestauranteRepository {
     @Transactional
     public void remover(Restaurante restaurante) {
         //we need to change from transient state to managed state for the JPA to be able to manage.
-        restaurante = porId(restaurante.getId());
+        restaurante = buscar(restaurante.getId());
         manager.remove(restaurante);
     }
 
