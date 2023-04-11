@@ -33,7 +33,7 @@ public class RestauranteRepositoryImpl implements RestauranteRepository {
     //método adicionar foi alterado para salvar, já que serve para adicionar e atualizar
     @Override
     @Transactional //esse método será executado dentro de uma transação
-    public Restaurante adicionar(Restaurante restaurante) {
+    public Restaurante salvar(Restaurante restaurante) {
         return manager.merge(restaurante);
     }
 

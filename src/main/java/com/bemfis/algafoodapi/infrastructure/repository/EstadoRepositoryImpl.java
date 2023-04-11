@@ -1,7 +1,7 @@
 package com.bemfis.algafoodapi.infrastructure.repository;
 
-import com.bemfis.algafoodapi.domain.model.Cozinha;
-import com.bemfis.algafoodapi.domain.repository.CozinhaRepository;
+import com.bemfis.algafoodapi.domain.model.Estado;
+import com.bemfis.algafoodapi.domain.repository.EstadoRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Component;
@@ -9,38 +9,38 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Component
-public class CozinhaRepositoryImpl implements CozinhaRepository {
+public class EstadoRepositoryImpl implements EstadoRepository {
     @PersistenceContext //injeta EntityManager
     private EntityManager manager;
     //gerencia o contexto de persistencia, intermediação dos comandos em tradução para sql.
     //com esse EntityManager podemos salvar um objeto no banco, fazer consultas, etc.
 
     @Override
-    public List<Cozinha> todas() {
+    public List<Estado> todos() {
         //createQuery cria uma consulta, tem como argumento uma String (consulta JPQL) e o tipo do retorno da consulta.
         //createQuery retorna uma consulta tipada de cozinha (TypedQuery).
         //getResultList retorna uma lista de cozinha.
-        return manager.createQuery("from Cozinha", Cozinha.class).getResultList();
+        return manager.createQuery("from Estado", Estado.class).getResultList();
     }
     @Override
-    public Cozinha porId(Long id) {
+    public Estado porId(Long id) {
         //faz um select from Cozinha where id é igual ao id recebido.
-        return manager.find(Cozinha.class, id);
+        return manager.find(Estado.class, id);
     }
 
     //quando fazemos uma modificação no nosso banco de dados precisamos de uma transação
     //método adicionar foi alterado para salvar, já que serve para adicionar e atualizar
     @Override
     @Transactional //esse método será executado dentro de uma transação
-    public Cozinha salvar(Cozinha cozinha) {
-        return manager.merge(cozinha);
+    public Estado salvar(Estado estado) {
+        return manager.merge(estado);
     }
 
     @Override
     @Transactional
-    public void remover(Cozinha cozinha) {
+    public void remover(Estado estado) {
         //we need to change from transient state to managed state for the JPA to be able to manage.
-        cozinha = porId(cozinha.getId());
-        manager.remove(cozinha);
+        estado = porId(estado.getId());
+        manager.remove(estado);
     }
 }
