@@ -5,7 +5,7 @@ import com.bemfis.algafoodapi.domain.model.Cozinha;
 import java.util.List;
 
 public interface CozinhaRepository {
-    List<Cozinha> todas();
+    List<Cozinha> listar();
     Cozinha porId(Long id);
     Cozinha salvar(Cozinha cozinha);
     void remover(Cozinha cozinha);

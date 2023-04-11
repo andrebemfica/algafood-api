@@ -16,7 +16,7 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
     //com esse EntityManager podemos salvar um objeto no banco, fazer consultas, etc.
 
     @Override
-    public List<Cozinha> todas() {
+    public List<Cozinha> listar() {
         //createQuery cria uma consulta, tem como argumento uma String (consulta JPQL) e o tipo do retorno da consulta.
         //createQuery retorna uma consulta tipada de cozinha (TypedQuery).
         //getResultList retorna uma lista de cozinha.
