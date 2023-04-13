@@ -12,9 +12,9 @@ insert into forma_pagamento (descricao) values ('Pix');
 insert into permissao (nome, descricao) values ('Consultar Produtos', 'Permite fazer consulta de produtos');
 insert into permissao (nome, descricao) values ('Consultar Cozinha', 'Permite fazer consulta de cozinhas');
 
-insert into estado (nome) values ('Pará');
-insert into estado (nome) values ('Amapá');
+insert into estado (nome) values ('Para');
+insert into estado (nome) values ('Amapa');
 
 insert into cidade (nome, estado_id) values ('Monte Dourado', 1);
-insert into cidade (nome, estado_id) values ('Belém', 1);
-insert into cidade (nome, estado_id) values ('Macapá', 2);
+insert into cidade (nome, estado_id) values ('Belem', 1);
+insert into cidade (nome, estado_id) values ('Macapa', 2);

@@ -1,5 +1,6 @@
 package com.bemfis.algafoodapi.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,6 +13,8 @@ public class Cozinha {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
+    //@JsonProperty("tipo")
+    @JsonIgnore
     @Column(nullable = false)
     private String nome;
 
