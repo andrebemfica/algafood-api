@@ -2,6 +2,7 @@ package com.bemfis.algafoodapi.api.controller;
 
 import com.bemfis.algafoodapi.domain.model.Cozinha;
 import com.bemfis.algafoodapi.domain.repository.CozinhaRepository;
+import com.bemfis.algafoodapi.domain.service.CadastroCozinhaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,6 +17,8 @@ import java.util.List;
 public class CozinhaCtrl {
     @Autowired
     private CozinhaRepository cozinhaRepository;
+    @Autowired
+    private CadastroCozinhaService cadastroCozinhaService;
 
     @GetMapping
     public List<Cozinha> listar(){
@@ -34,7 +37,7 @@ public class CozinhaCtrl {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cozinha adicionar(@RequestBody Cozinha cozinha){
-        return cozinhaRepository.salvar(cozinha);
+        return cadastroCozinhaService.salvar(cozinha);
 
         //@ResquestBody vincula o objeto cozinha com o corpo da requisição
     }
