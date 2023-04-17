@@ -29,13 +29,13 @@ public class CozinhaCtrlExp2 {
     public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId){
         //ResponseEntity representa uma resposta http onde pode ter uma instância de cozinha dentro
 
-        HttpHeaders headers = new HttpHeaders();
+        HttpHeaders httpHeaders = new HttpHeaders();
 
         //LOCATION diz qual a uri temporária
-        headers.add(HttpHeaders.LOCATION, "http://localhost:8080/cozinhas");
+        httpHeaders.add(HttpHeaders.LOCATION, "http://localhost:8080/cozinhas");
 
         //found signfica que o endereço do recurso foi alterado temporariamente.
-        return ResponseEntity.status(HttpStatus.FOUND).headers(headers).build();
+        return ResponseEntity.status(HttpStatus.FOUND).headers(httpHeaders).build();
     }
 }
 
