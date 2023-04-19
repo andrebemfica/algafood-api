@@ -17,7 +17,7 @@ public class RestauranteRepositoryImpl implements RestauranteRepository {
     //com esse EntityManager podemos salvar um objeto no banco, fazer consultas, etc.
 
     @Override
-    public List<Restaurante> todos() {
+    public List<Restaurante> listar() {
         //createQuery cria uma consulta, tem como argumento uma String (consulta JPQL) e o tipo do retorno da consulta.
         //createQuery retorna uma consulta tipada de cozinha (TypedQuery).
         //getResultList retorna uma lista de cozinha.

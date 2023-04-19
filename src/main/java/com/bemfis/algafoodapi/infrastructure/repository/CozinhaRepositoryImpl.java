@@ -4,6 +4,7 @@ import com.bemfis.algafoodapi.domain.model.Cozinha;
 import com.bemfis.algafoodapi.domain.repository.CozinhaRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,9 +39,12 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
 
     @Override
     @Transactional
-    public void remover(Cozinha cozinha) {
+    public void remover(Long cozinhaId) {
         //we need to change from transient state to managed state for the JPA to be able to manage.
-        cozinha = buscar(cozinha.getId());
+        Cozinha cozinha = buscar(cozinhaId);
+        if(cozinha == null){
+            throw new EmptyResultDataAccessException(1);
+        }
         manager.remove(cozinha);
     }
 }
