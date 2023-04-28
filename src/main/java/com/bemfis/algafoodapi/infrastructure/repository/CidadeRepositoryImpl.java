@@ -4,6 +4,7 @@ import com.bemfis.algafoodapi.domain.model.Cidade;
 import com.bemfis.algafoodapi.domain.repository.CidadeRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +18,7 @@ public class CidadeRepositoryImpl implements CidadeRepository {
     //com esse EntityManager podemos salvar um objeto no banco, fazer consultas, etc.
 
     @Override
-    public List<Cidade> todas() {
+    public List<Cidade> listar() {
         //createQuery cria uma consulta, tem como argumento uma String (consulta JPQL) e o tipo do retorno da consulta.
         //createQuery retorna uma consulta tipada de cozinha (TypedQuery).
         //getResultList retorna uma lista de cozinha.
@@ -39,9 +40,12 @@ public class CidadeRepositoryImpl implements CidadeRepository {
 
     @Override
     @Transactional
-    public void remover(Cidade cidade) {
+    public void remover(Long cidadeId) {
         //we need to change from transient state to managed state for the JPA to be able to manage.
-        cidade = buscar(cidade.getId());
+        Cidade cidade = buscar(cidadeId);
+        if(cidade == null){
+            throw new EmptyResultDataAccessException(1);
+        }
         manager.remove(cidade);
     }
 }

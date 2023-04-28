@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 @Component
 public class CozinhaRepositoryImpl implements CozinhaRepository {
     @PersistenceContext //injeta EntityManager
@@ -23,6 +24,7 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
         //getResultList retorna uma lista de cozinha.
         return manager.createQuery("from Cozinha", Cozinha.class).getResultList();
     }
+
     @Override
     public Cozinha buscar(Long id) {
         //faz um select from Cozinha where id é igual ao id recebido.
@@ -42,7 +44,8 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
     public void remover(Long cozinhaId) {
         //we need to change from transient state to managed state for the JPA to be able to manage.
         Cozinha cozinha = buscar(cozinhaId);
-        if(cozinha == null){
+        if (cozinha == null) {
+            //o número 1 significa que o resultado esperado era de pelo menos um objeto (uma cozinha).
             throw new EmptyResultDataAccessException(1);
         }
         manager.remove(cozinha);

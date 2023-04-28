@@ -4,6 +4,7 @@ import com.bemfis.algafoodapi.domain.model.Estado;
 import com.bemfis.algafoodapi.domain.repository.EstadoRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,9 +39,12 @@ public class EstadoRepositoryImpl implements EstadoRepository {
 
     @Override
     @Transactional
-    public void remover(Estado estado) {
+    public void remover(Long estadoId) {
         //we need to change from transient state to managed state for the JPA to be able to manage.
-        estado = buscar(estado.getId());
+        Estado estado = buscar(estadoId);
+        if(estado == null){
+            throw new EmptyResultDataAccessException(1);
+        }
         manager.remove(estado);
     }
 }
