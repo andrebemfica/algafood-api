@@ -4,13 +4,18 @@ import com.bemfis.algafoodapi.domain.exception.EntidadeNaoEncontradaException;
 import com.bemfis.algafoodapi.domain.model.Restaurante;
 import com.bemfis.algafoodapi.domain.repository.RestauranteRepository;
 import com.bemfis.algafoodapi.domain.service.CadastroRestauranteService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.aspectj.util.Reflection;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -66,5 +71,29 @@ public class RestauranteCtrl {
         } catch (EntidadeNaoEncontradaException e){
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PatchMapping("/{restauranteId}")
+    public ResponseEntity<?> atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> campos){
+        Restaurante restauranteAtual = restauranteRepository.buscar(restauranteId);
+        if (restauranteAtual == null) {
+            ResponseEntity.notFound().build();
+        }
+
+        merge(campos, restauranteAtual);
+
+        return atualizar(restauranteAtual, restauranteId);
+    }
+
+    private void merge(Map<String, Object> dadosOrigem, Restaurante restauranteDestino) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Restaurante restauranteOrigem = objectMapper.convertValue(dadosOrigem, Restaurante.class);
+
+        dadosOrigem.forEach((nomePropriedade, valorPropriedade) -> {
+            Field field = ReflectionUtils.findField(Restaurante.class, nomePropriedade);
+            field.setAccessible(true);
+            Object novoValor = ReflectionUtils.getField(field, restauranteOrigem);
+            ReflectionUtils.setField(field, restauranteDestino, novoValor);
+        });
     }
 }

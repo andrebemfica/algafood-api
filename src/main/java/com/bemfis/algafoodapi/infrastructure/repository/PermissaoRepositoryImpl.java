@@ -5,10 +5,11 @@ import com.bemfis.algafoodapi.domain.repository.PermissaoRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-@Component
+@Repository
 public class PermissaoRepositoryImpl implements PermissaoRepository {
     @PersistenceContext //injeta EntityManager
     private EntityManager manager;

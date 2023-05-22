@@ -6,11 +6,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Component
+@Repository
 public class CozinhaRepositoryImpl implements CozinhaRepository {
     @PersistenceContext //injeta EntityManager
     private EntityManager manager;
@@ -23,6 +24,13 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
         //createQuery retorna uma consulta tipada de cozinha (TypedQuery).
         //getResultList retorna uma lista de cozinha.
         return manager.createQuery("from Cozinha", Cozinha.class).getResultList();
+    }
+
+    @Override
+    public List<Cozinha> consultarPorNome(String nome) {
+        return manager.createQuery("from Cozinha where nome like :nome", Cozinha.class)
+                .setParameter("nome", "%" + nome + "%")
+                .getResultList();
     }
 
     @Override
