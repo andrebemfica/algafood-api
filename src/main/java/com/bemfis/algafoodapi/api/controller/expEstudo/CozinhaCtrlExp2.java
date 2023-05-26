@@ -22,7 +22,7 @@ public class CozinhaCtrlExp2 {
 
     @GetMapping //requisições com o verbo http get chegarão nesse método
     public List<Cozinha> listar(){
-        return cozinhaRepository.listar();
+        return cozinhaRepository.findAll();
     }
 
     @GetMapping("/{cozinhaId}")
