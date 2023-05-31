@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CadastroRestauranteService {
@@ -19,21 +19,26 @@ public class CadastroRestauranteService {
     private CozinhaRepository cozinhaRepository;
 
     public Restaurante salvar(Restaurante restaurante) {
-        Long cozinhaId = restaurante.getCozinha().getId();
-        Cozinha cozinha = cozinhaRepository.findById(cozinhaId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format("Não existe um cadastro de cozinha com o código %d", cozinhaId)));
+        Optional<Cozinha> cozinhaOpt = cozinhaRepository.findById(restaurante.getCozinha().getId());
 
-        restaurante.setCozinha(cozinha);
-        return restauranteRepository.salvar(restaurante);
+        if (cozinhaOpt.isEmpty()) {
+            throw new EntidadeNaoEncontradaException(
+                    String.format("Não existe um cadastro de cozinha com o código %d", restaurante.getCozinha().getId()));
+        }
+
+        restaurante.setCozinha(cozinhaOpt.get());
+        return restauranteRepository.save(restaurante);
     }
 
-    public void excluir(Long restauranteId){
-        try{
-           restauranteRepository.remover(restauranteId);
-        } catch (EmptyResultDataAccessException e){
+    public void remover(Long restauranteId) {
+        Optional<Restaurante> restauranteOpt = restauranteRepository.findById(restauranteId);
+
+        if (restauranteOpt.isEmpty()) {
             throw new EntidadeNaoEncontradaException(
                     String.format("Não existe um cadastro de restaurante com o código %d", restauranteId));
         }
+
+        restauranteRepository.deleteById(restauranteId);
+
     }
 }

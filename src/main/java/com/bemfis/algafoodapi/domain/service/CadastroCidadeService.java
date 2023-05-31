@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CadastroCidadeService {
     @Autowired
@@ -16,23 +18,23 @@ public class CadastroCidadeService {
     @Autowired
     private EstadoRepository estadoRepository;
 
-    public Cidade salvar(Cidade cidade){
-        Estado estado = estadoRepository.buscar(cidade.getEstado().getId());
-        if(estado == null){
+    public Cidade salvar(Cidade cidade) {
+        Optional<Estado> estadoOpt = estadoRepository.findById(cidade.getEstado().getId());
+        if (estadoOpt.isEmpty()) {
             throw new EntidadeNaoEncontradaException(String.format(
                     "Não existe um cadastro de estado com o código %d", cidade.getEstado().getId()));
         }
-        cidade.setEstado(estado);
-        System.out.println(cidade.getEstado().getNome());
-        return cidadeRepository.salvar(cidade);
+        cidade.setEstado(estadoOpt.get());
+        return cidadeRepository.save(cidade);
     }
 
-    public void remover(Long cidadeId){
-        try{
-            cidadeRepository.remover(cidadeId);
-        } catch (EmptyResultDataAccessException e){
+    public void remover(Long cidadeId) {
+        Optional<Cidade> cidadeOpt = cidadeRepository.findById(cidadeId);
+
+        if (cidadeOpt.isEmpty()) {
             throw new EntidadeNaoEncontradaException(
                     String.format("Não existe um cadastro de cidade com o código: %d", cidadeId));
         }
+        cidadeRepository.deleteById(cidadeId);
     }
 }

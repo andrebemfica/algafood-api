@@ -6,8 +6,9 @@ import com.bemfis.algafoodapi.domain.model.Cozinha;
 import com.bemfis.algafoodapi.domain.repository.CozinhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CadastroCozinhaService {
@@ -17,13 +18,16 @@ public class CadastroCozinhaService {
     public Cozinha salvar(Cozinha cozinha) {
         return cozinhaRepository.save(cozinha);
     }
-    public void excluir(Long cozinhaId) {
-        try {
-            cozinhaRepository.deleteById(cozinhaId);
+    public void remover(Long cozinhaId) {
+        Optional<Cozinha> cozinhaOpt = cozinhaRepository.findById(cozinhaId);
 
-        } catch (EmptyResultDataAccessException e){
+        if(cozinhaOpt.isEmpty()){
             throw new EntidadeNaoEncontradaException(
                     String.format("Não existe um cadastro de cozinha com o código %d", cozinhaId));
+        }
+
+        try {
+            cozinhaRepository.deleteById(cozinhaId);
 
         } catch (DataIntegrityViolationException e){
             throw new EntidadeEmUsoException(
