@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/teste")
@@ -24,20 +25,43 @@ public class TesteController {
     private RestauranteRepository restauranteRepository;
 
     @GetMapping("/cozinhas/por-nome") //podemos tirar o @RequestParam que por padrão já é feita essa função
-    public List<Cozinha> cozinhasPorNome(@RequestParam("nome") String nome){
+    public List<Cozinha> cozinhasPorNome(@RequestParam("nome") String nome) {
         return cozinhaRepository.findByNome(nome);
     }
+
     @GetMapping("/cozinhas/parte-nome")
-    public List<Cozinha> cozinhasPorParteNome(String nome){
+    public List<Cozinha> cozinhasPorParteNome(String nome) {
         return cozinhaRepository.findByNomeContaining(nome);
     }
+
     @GetMapping("/restaurantes/taxa-frete")
-    public List<Restaurante> restaurantesPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal){
+    public List<Restaurante> restaurantesPorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
         return restauranteRepository.findByTaxaFreteBetween(taxaInicial, taxaFinal);
     }
+
     @GetMapping("/restaurantes/por-nome-cozinhaid")
-    public List<Restaurante> restaurantesPorNomeCozinhaId(String nome, Long cozinhaId){
+    public List<Restaurante> restaurantesPorNomeCozinhaId(String nome, Long cozinhaId) {
         return restauranteRepository.findByNomeContainingAndCozinhaId(nome, cozinhaId);
+    }
+
+    @GetMapping("/restaurantes/first-por-nome")
+    public Optional<Restaurante> restauranteFirstPorNome(String nome) {
+        return restauranteRepository.findFirstByNomeContaining(nome);
+    }
+
+    @GetMapping("/restaurantes/top2-por-nome")
+    public List<Restaurante> restaurantesTop2PorNome(String nome) {
+        return restauranteRepository.findTop2ByNomeContaining(nome);
+    }
+
+    @GetMapping("/restaurantes/exists-nome")
+    public boolean existsNome(String nome) {
+        return restauranteRepository.existsByNome(nome);
+    }
+
+    @GetMapping("/restaurantes/count-restaurentes-by-cozinha")
+    public int countRestaurantesByCozinhaId(Long cozinhaId) {
+        return restauranteRepository.countByCozinhaId(cozinhaId);
     }
 
 }
