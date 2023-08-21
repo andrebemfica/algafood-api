@@ -4,6 +4,8 @@ import com.bemfis.algafoodapi.domain.model.Cozinha;
 import com.bemfis.algafoodapi.domain.model.Restaurante;
 import com.bemfis.algafoodapi.domain.repository.CozinhaRepository;
 import com.bemfis.algafoodapi.domain.repository.RestauranteRepository;
+import com.bemfis.algafoodapi.infrastructure.repository.spec.RestauranteComFreteGratisSpec;
+import com.bemfis.algafoodapi.infrastructure.repository.spec.RestauranteComNomeSemelhanteSpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,6 +69,14 @@ public class TesteController {
     @GetMapping("/restaurantes/count-restaurentes-by-cozinha")
     public int countRestaurantesByCozinhaId(Long cozinhaId) {
         return restauranteRepository.countByCozinhaId(cozinhaId);
+    }
+
+    @GetMapping("/restaurantes/com-frete-gratis")
+    public List<Restaurante> restaurantesComFreteGratis(String nome) {
+        var comFreteGratis = new RestauranteComFreteGratisSpec();
+        var comNomeSemelhante = new RestauranteComNomeSemelhanteSpec(nome);
+
+        return restauranteRepository.findAll(comNomeSemelhante);
     }
 
 }
