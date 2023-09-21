@@ -81,4 +81,9 @@ public class TesteController {
         return restauranteRepository.bucarPrimeiro();
     }
 
+    @GetMapping("/cozinhas/primeira")
+    public Optional<Cozinha> cozinhaPrimeira() {
+        return cozinhaRepository.bucarPrimeiro();
+    }
+
 }
