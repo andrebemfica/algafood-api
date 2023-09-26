@@ -8,9 +8,9 @@ insert into cidade (nome, estado_id) values ('Monte Dourado', 1);
 insert into cidade (nome, estado_id) values ('Belem', 1);
 insert into cidade (nome, estado_id) values ('Macapa', 2);
 
-insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro) values ('Bem10', 6.50, 1, 1, '66050-350', 'Municipalidade', '1000', 'Umarizal');
-insert into restaurante (nome, taxa_frete, cozinha_id) values ('Bemfis', 8.50, 1);
-insert into restaurante (nome, taxa_frete, cozinha_id) values ('BemGuedes', 10.50, 2);
+insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro) values ('Bem10', 6.50, 1, utc_timestamp, utc_timestamp, 1, '66050-350', 'Municipalidade', '1000', 'Umarizal');
+insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values ('Bemfis', 8.50, 1, utc_timestamp, utc_timestamp);
+insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values ('BemGuedes', 10.50, 2, utc_timestamp, utc_timestamp);
 
 insert into forma_pagamento (descricao) values ('Credito');
 insert into forma_pagamento (descricao) values ('Debito');

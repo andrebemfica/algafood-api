@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.tags.EditorAwareTag;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -56,7 +57,7 @@ public class RestauranteCtrl {
             Optional<Restaurante> restautanteOpt = restauranteRepository.findById(restauranteId);
 
             if (restautanteOpt.isPresent()) {
-                BeanUtils.copyProperties(restaurante, restautanteOpt.get(), "id", "formaPagamentos", "endereco");
+                BeanUtils.copyProperties(restaurante, restautanteOpt.get(), "id", "formaPagamentos", "endereco", "dataCadastro");
                 Restaurante restautanteSalvo = cadastroRestauranteService.salvar(restautanteOpt.get());
                 return ResponseEntity.ok(restautanteSalvo);
             } else {
